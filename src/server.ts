@@ -16,9 +16,13 @@ app.get('/', (req: express.Request, res: express.Response) => {
 
 
 app.get('/test', async (req: express.Request, res: express.Response) => {
-	const result = await model.getTest();
-	console.log(result)
-	res.send(result);
+	try {
+		const result = await model.getTest();
+		res.send(result);
+	}
+	catch (e) {
+		res.send(e.message)
+	}
 });
 
 

@@ -4,17 +4,23 @@ const connection = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
 	password: 'rootroot',
-	database: 'northwind'
+	database: 'et001-mysql-write'
 });
 
 export const getTest = () => {
 	return new Promise((resolve, reject) => {
 		connection.connect((err) => {
-			if (err) throw err;
-			const sql = 'SELECT company,last_name,first_name FROM customers';
+			if (err) {
+				reject({
+					message: err.message
+				});
+			};
+			const sql = 'SELECT * FROM flashcards';
 			connection.query(sql, (err, records) => {
 				if (err) {
-					reject('there was an error');
+					reject({
+						message: err.message
+					});
 				};
 				resolve(records);
 			});
