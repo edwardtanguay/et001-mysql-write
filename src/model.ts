@@ -1,9 +1,10 @@
 import mysql from 'mysql2';
+import { IFlashcard, INewFlashcard } from './interfaces.js';
 
 const connection = mysql.createConnection({
 	host: 'localhost',
-	user: 'root',
-	password: 'rootroot',
+	user: 'sitereader',
+	password: 'passpass',
 	database: 'et001-mysql-write'
 });
 
@@ -23,6 +24,27 @@ export const getFlashcards = () => {
 					});
 				};
 				resolve(records);
+			});
+		});
+	})
+}
+
+export const getFlashcard = (id: number): any => {
+	return new Promise((resolve, reject) => {
+		connection.connect((err) => {
+				if (err) {
+					reject({
+						message: err.message
+					});
+				};
+			const sql = 'SELECT * FROM flashcards WHERE id = ?';
+			connection.query(sql, [id], (err, record) => {
+				if (err) {
+					reject({
+						message: err.message
+					});
+				};
+				resolve(record);
 			});
 		});
 	})

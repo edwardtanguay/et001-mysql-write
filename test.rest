@@ -5,3 +5,6 @@
 
 ### ALL FLASHCARDS
 {{url}}/flashcards
+
+### SINGLE FLASHCARD 
+{{url}}/flashcards/2678

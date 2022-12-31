@@ -25,6 +25,26 @@ app.get('/flashcards', async (req: express.Request, res: express.Response) => {
 	}
 });
 
+app.get('/flashcards/:id', async (req: express.Request, res: express.Response) => {
+	const id = Number(req.params.id);
+	if (isNaN(id)) {
+		res.status(400).send({
+			error: true,
+			message: "sent string, should be number"
+		});
+	} else {
+		const flashcard = await model.getFlashcard(id);
+		if (flashcard === undefined) {
+			res.status(404).send({
+				error: true,
+				message: "id did not correspond to an existing item"
+			});
+		} else {
+			res.json(flashcard);
+		}
+	}
+});
+
 
 app.listen(config.port, () => {
 	console.log(`listening on port http://localhost:${config.port}`);
