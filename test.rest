@@ -33,3 +33,14 @@ content-type: application/json
 	}
 }
 
+### EDIT FLASHCARD
+PUT {{url}}/flashcards/3023
+content-type: application/json
+
+{
+	"flashcard": {
+		"category": "CHANGED",
+		"front": "show all files with full info",
+		"back": "`ls -al`"
+	}
+}

@@ -80,6 +80,26 @@ app.post('/flashcards', async (req: express.Request, res: express.Response) => {
 	}
 });
 
+app.put('/flashcards/:id', async (req: express.Request, res: express.Response) => {
+	try {
+		const id = Number(req.params.id);
+		const newFlashcard: INewFlashcard = req.body.flashcard;
+		if (isNaN(id)) {
+			res.status(400).send({
+				error: true,
+				message: "sent string, should be number"
+			});
+		} else {
+			const result = await model.editFlashcard(id, newFlashcard);
+			res.json(result);
+		}
+	}
+	catch (e) {
+		res.send(e.message)
+	}
+});
+
+
 
 app.listen(config.port, () => {
 	console.log(`listening on port http://localhost:${config.port}`);

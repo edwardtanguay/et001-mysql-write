@@ -103,7 +103,7 @@ export const addFlashcard = (flashcard: INewFlashcard) => {
 				});
 			};
 			const sql = `INSERT INTO flashcards (category, front, back) VALUES (?, ?, ?)`;
-			const response = connection.execute(sql, [flashcard.category, flashcard.front, flashcard.back], (err, result) => {
+			connection.execute(sql, [flashcard.category, flashcard.front, flashcard.back], (err, result) => {
 				const insertId = Object.entries(result)[2][1];
 				if (err) {
 					reject({
@@ -119,6 +119,43 @@ export const addFlashcard = (flashcard: INewFlashcard) => {
 			});
 		});
 	})
+}
+
+export const editFlashcard = (id: number, newFlashcard: INewFlashcard) => {
+	return new Promise((resolve, reject) => {
+		connection.connect((err) => {
+			if (err) {
+				reject({
+					message: err.message
+				});
+			};
+			const sql = `UPDATE flashcards SET category = ?, front = ?, back = ? WHERE id = ?`;
+			connection.execute(sql, [newFlashcard.category, newFlashcard.front, newFlashcard.back, id], (err, result) => {
+				const affectedRows = Number(Object.entries(result)[1][1]);
+				if (err) {
+					reject({
+						message: err.message
+					});
+				};
+				if (affectedRows === 1) {
+					resolve(
+						{
+							status: "success",
+							idOfChangedRecord: id 
+						}
+					);
+				} else {
+					resolve(
+						{
+							status: "error",
+							idOfNewRecord: 'no rows changed'
+						}
+					);
+				}
+			});
+		});
+	})
+
 }
 
 
