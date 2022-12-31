@@ -21,3 +21,15 @@
 ### GET ALL CATEGORIES
 {{url}}/categories
 
+### ADD FLASHCARD
+POST {{url}}/flashcards
+content-type: application/json
+
+{
+	"flashcard": {
+		"category": "linux",
+		"front": "show all files with full info",
+		"back": "`ls -al`"
+	}
+}
+

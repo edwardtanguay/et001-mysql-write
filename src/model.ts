@@ -103,13 +103,19 @@ export const addFlashcard = (flashcard: INewFlashcard) => {
 				});
 			};
 			const sql = `INSERT INTO flashcards (category, front, back) VALUES (?, ?, ?)`;
-			connection.execute(sql,[flashcard.category, flashcard.front, flashcard.back], (err, records) => {
+			const response = connection.execute(sql, [flashcard.category, flashcard.front, flashcard.back], (err, result) => {
+				const insertId = Object.entries(result)[2][1];
 				if (err) {
 					reject({
 						message: err.message
 					});
 				};
-				resolve(records);
+				resolve(
+					{
+						status: "success",
+						idOfNewRecord: insertId
+					}
+				)
 			});
 		});
 	})
