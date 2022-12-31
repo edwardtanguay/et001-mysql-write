@@ -141,23 +141,57 @@ export const editFlashcard = (id: number, newFlashcard: INewFlashcard) => {
 					resolve(
 						{
 							status: "success",
-							idOfChangedRecord: id 
+							idOfChangedRecord: id
 						}
 					);
 				} else {
 					resolve(
 						{
 							status: "error",
-							idOfNewRecord: 'no rows changed'
+							message: 'no rows changed'
 						}
 					);
 				}
 			});
 		});
 	})
-
 }
 
+export const deleteFlashcard = (id: number) => {
+	return new Promise((resolve, reject) => {
+		connection.connect((err) => {
+			if (err) {
+				reject({
+					message: err.message
+				});
+			};
+			const sql = `DELETE FROM flashcards WHERE id = ?`;
+			connection.execute(sql, [id], (err, result) => {
+				const affectedRows = Number(Object.entries(result)[1][1]);
+				if (err) {
+					reject({
+						message: err.message
+					});
+				};
+				if (affectedRows === 1) {
+					resolve(
+						{
+							status: "success",
+							idOfDeletedRecord: id
+						}
+					);
+				} else {
+					resolve(
+						{
+							status: "error",
+							message: 'no rows deleted'
+						}
+					);
+				}
+			});
+		});
+	})
+}
 
 export const getApiInstructions = () => {
 	return `

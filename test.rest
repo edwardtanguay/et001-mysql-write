@@ -44,3 +44,6 @@ content-type: application/json
 		"back": "`ls -al`"
 	}
 }
+
+### DELETE FLASHCARD
+DELETE {{url}}/flashcards/3025

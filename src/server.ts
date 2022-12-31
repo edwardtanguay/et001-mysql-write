@@ -99,6 +99,23 @@ app.put('/flashcards/:id', async (req: express.Request, res: express.Response) =
 	}
 });
 
+app.delete('/flashcards/:id', async (req: express.Request, res: express.Response) => {
+	try {
+		const id = Number(req.params.id);
+		if (isNaN(id)) {
+			res.status(400).send({
+				error: true,
+				message: "sent string, should be number"
+			});
+		} else {
+			const result = await model.deleteFlashcard(id);
+			res.json(result);
+		}
+	}
+	catch (e) {
+		res.send(e.message)
+	}
+});
 
 
 app.listen(config.port, () => {
