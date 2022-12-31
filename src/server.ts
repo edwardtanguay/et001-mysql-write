@@ -69,6 +69,18 @@ app.get('/categories', async (req: express.Request, res: express.Response) => {
 	}
 });
 
+app.post('/flashcards', async (req: express.Request, res: express.Response) => {
+	try {
+		const flashcard = req.body.flashcard;
+		const result = await model.addFlashcard(flashcard)
+		res.json(result);
+	}
+	catch (e) {
+		res.send(e.message)
+	}
+});
+
+
 app.listen(config.port, () => {
 	console.log(`listening on port http://localhost:${config.port}`);
 });

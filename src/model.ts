@@ -38,7 +38,8 @@ export const getFlashcard = (id: number): any => {
 				});
 			};
 			const sql = 'SELECT * FROM flashcards WHERE id = ?';
-			connection.query(sql, [id], (err, record) => {
+			connection.query(sql, [id], (err, records) => {
+				const record = records[0];
 				if (err) {
 					reject({
 						message: err.message
@@ -93,7 +94,26 @@ JOIN categories AS c ON f.category = c.idCode`;
 	})
 }
 
-
+export const addFlashcard = (flashcard: INewFlashcard) => {
+	return new Promise((resolve, reject) => {
+		connection.connect((err) => {
+			if (err) {
+				reject({
+					message: err.message
+				});
+			};
+			const sql = `INSERT INTO flashcards (category, front, back) VALUES (?, ?, ?)`;
+			connection.execute(sql,[flashcard.category, flashcard.front, flashcard.back], (err, records) => {
+				if (err) {
+					reject({
+						message: err.message
+					});
+				};
+				resolve(records);
+			});
+		});
+	})
+}
 
 
 export const getApiInstructions = () => {
