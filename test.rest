@@ -3,5 +3,5 @@
 ### BASE
 {{url}}
 
-### TEST
-{{url}}/test
+### ALL FLASHCARDS
+{{url}}/flashcards

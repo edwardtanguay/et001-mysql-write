@@ -15,9 +15,9 @@ app.get('/', (req: express.Request, res: express.Response) => {
 });
 
 
-app.get('/test', async (req: express.Request, res: express.Response) => {
+app.get('/flashcards', async (req: express.Request, res: express.Response) => {
 	try {
-		const result = await model.getTest();
+		const result = await model.getFlashcards();
 		res.send(result);
 	}
 	catch (e) {

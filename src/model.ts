@@ -7,14 +7,14 @@ const connection = mysql.createConnection({
 	database: 'et001-mysql-write'
 });
 
-export const getTest = () => {
+export const getFlashcards = () => {
 	return new Promise((resolve, reject) => {
 		connection.connect((err) => {
-			if (err) {
-				reject({
-					message: err.message
-				});
-			};
+				if (err) {
+					reject({
+						message: err.message
+					});
+				};
 			const sql = 'SELECT * FROM flashcards';
 			connection.query(sql, (err, records) => {
 				if (err) {
