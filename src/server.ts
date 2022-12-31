@@ -60,6 +60,14 @@ app.get('/flashcards/category/:category', async (req: express.Request, res: expr
 	}
 });
 
+app.get('/categories', async (req: express.Request, res: express.Response) => {
+	try {
+		res.json(await model.getCategories());
+	}
+	catch (e) {
+		res.send(e.message)
+	}
+});
 
 app.listen(config.port, () => {
 	console.log(`listening on port http://localhost:${config.port}`);

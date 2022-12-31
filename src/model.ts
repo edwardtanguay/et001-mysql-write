@@ -11,11 +11,11 @@ const connection = mysql.createConnection({
 export const getFlashcards = () => {
 	return new Promise((resolve, reject) => {
 		connection.connect((err) => {
-				if (err) {
-					reject({
-						message: err.message
-					});
-				};
+			if (err) {
+				reject({
+					message: err.message
+				});
+			};
 			const sql = 'SELECT * FROM flashcards';
 			connection.query(sql, (err, records) => {
 				if (err) {
@@ -29,14 +29,35 @@ export const getFlashcards = () => {
 	})
 }
 
-export const getFlashcardsWithCategory = (category: string): any => {
+export const getFlashcard = (id: number): any => {
 	return new Promise((resolve, reject) => {
 		connection.connect((err) => {
+			if (err) {
+				reject({
+					message: err.message
+				});
+			};
+			const sql = 'SELECT * FROM flashcards WHERE id = ?';
+			connection.query(sql, [id], (err, record) => {
 				if (err) {
 					reject({
 						message: err.message
 					});
 				};
+				resolve(record);
+			});
+		});
+	})
+}
+
+export const getFlashcardsWithCategory = (category: string): any => {
+	return new Promise((resolve, reject) => {
+		connection.connect((err) => {
+			if (err) {
+				reject({
+					message: err.message
+				});
+			};
 			const sql = 'SELECT * FROM flashcards WHERE category = ?';
 			connection.query(sql, [category], (err, record) => {
 				if (err) {
@@ -50,27 +71,28 @@ export const getFlashcardsWithCategory = (category: string): any => {
 	})
 }
 
-
-export const getFlashcard = (id: number): any => {
+export const getCategories = () => {
 	return new Promise((resolve, reject) => {
 		connection.connect((err) => {
+			if (err) {
+				reject({
+					message: err.message
+				});
+			};
+			const sql = `SELECT f.id, f.category, c.name as categoryName, f.front, f.back FROM flashcards AS f
+JOIN categories AS c ON f.category = c.idCode`;
+			connection.query(sql, (err, records) => {
 				if (err) {
 					reject({
 						message: err.message
 					});
 				};
-			const sql = 'SELECT * FROM flashcards WHERE id = ?';
-			connection.query(sql, [id], (err, record) => {
-				if (err) {
-					reject({
-						message: err.message
-					});
-				};
-				resolve(record);
+				resolve(records);
 			});
 		});
 	})
 }
+
 
 
 

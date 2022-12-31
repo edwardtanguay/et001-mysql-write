@@ -12,3 +12,6 @@
 ### ALL FLASHCARDS IN A CATEGORY
 {{url}}/flashcards/category/git
 
+### GET ALL CATEGORIES
+{{url}}/categories
+
