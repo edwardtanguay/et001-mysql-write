@@ -26,22 +26,37 @@ app.get('/flashcards', async (req: express.Request, res: express.Response) => {
 });
 
 app.get('/flashcards/:id', async (req: express.Request, res: express.Response) => {
-	const id = Number(req.params.id);
-	if (isNaN(id)) {
-		res.status(400).send({
-			error: true,
-			message: "sent string, should be number"
-		});
-	} else {
-		const flashcard = await model.getFlashcard(id);
-		if (flashcard === undefined) {
-			res.status(404).send({
+	try {
+		const id = Number(req.params.id);
+		if (isNaN(id)) {
+			res.status(400).send({
 				error: true,
-				message: "id did not correspond to an existing item"
+				message: "sent string, should be number"
 			});
 		} else {
-			res.json(flashcard);
+			const flashcard = await model.getFlashcard(id);
+			if (flashcard === undefined) {
+				res.status(404).send({
+					error: true,
+					message: "id did not correspond to an existing item"
+				});
+			} else {
+				res.json(flashcard);
+			}
 		}
+	}
+	catch (e) {
+		res.send(e.message)
+	}
+});
+
+app.get('/flashcards/category/:category', async (req: express.Request, res: express.Response) => {
+	try {
+		const category = req.params.category;
+		res.json(await model.getFlashcardsWithCategory(category));
+	}
+	catch (e) {
+		res.send(e.message)
 	}
 });
 

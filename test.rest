@@ -8,3 +8,7 @@
 
 ### SINGLE FLASHCARD 
 {{url}}/flashcards/2678
+
+### ALL FLASHCARDS IN A CATEGORY
+{{url}}/flashcards/category/git
+

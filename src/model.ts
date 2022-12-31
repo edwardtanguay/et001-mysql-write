@@ -29,6 +29,28 @@ export const getFlashcards = () => {
 	})
 }
 
+export const getFlashcardsWithCategory = (category: string): any => {
+	return new Promise((resolve, reject) => {
+		connection.connect((err) => {
+				if (err) {
+					reject({
+						message: err.message
+					});
+				};
+			const sql = 'SELECT * FROM flashcards WHERE category = ?';
+			connection.query(sql, [category], (err, record) => {
+				if (err) {
+					reject({
+						message: err.message
+					});
+				};
+				resolve(record);
+			});
+		});
+	})
+}
+
+
 export const getFlashcard = (id: number): any => {
 	return new Promise((resolve, reject) => {
 		connection.connect((err) => {
@@ -49,6 +71,8 @@ export const getFlashcard = (id: number): any => {
 		});
 	})
 }
+
+
 
 export const getApiInstructions = () => {
 	return `
